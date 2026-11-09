@@ -1,0 +1,30 @@
+# Secrets
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env.local
+frontend/.env*.local
+!frontend/.env.example
+
+# Python
+backend/.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Data
+data/*.db
+data/*.db-*
+backend/data/*.db
+
+# Node / Next
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.turbo/
+frontend/tsconfig.tsbuildinfo
+frontend/.env.local
+
+# OS / editor
+.DS_Store
+*.log

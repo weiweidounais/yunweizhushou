@@ -1,0 +1,93 @@
+verify.sh 自检  2026-11-09 17:54:34  产品：数据中心运维助理（.）
+
+================ 1. mock 自动化测试 ================
+...........................                                              [100%]
+=============================== warnings summary ===============================
+tests/test_changes.py::test_propose_creates_pending_plan_and_audit
+tests/test_changes.py::test_execute_without_approval_denied
+tests/test_changes.py::test_approve_execute_verify_and_audit_chain
+tests/test_changes.py::test_expired_approval_denied
+tests/test_changes.py::test_plan_hash_mismatch_denied
+tests/test_changes.py::test_audit_write_failure_blocks_execute
+tests/test_changes.py::test_audit_chain_detects_tamper
+tests/test_changes.py::test_approval_message_executes_deterministically
+  ./backend/app/services/changes.py:135: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    now = datetime.utcnow()
+
+tests/test_changes.py::test_approve_execute_verify_and_audit_chain
+tests/test_changes.py::test_expired_approval_denied
+tests/test_changes.py::test_plan_hash_mismatch_denied
+tests/test_changes.py::test_audit_write_failure_blocks_execute
+tests/test_changes.py::test_audit_chain_detects_tamper
+tests/test_changes.py::test_approval_message_executes_deterministically
+  ./backend/app/services/changes.py:159: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    now = datetime.utcnow()
+
+tests/test_changes.py::test_approve_execute_verify_and_audit_chain
+tests/test_changes.py::test_expired_approval_denied
+tests/test_changes.py::test_plan_hash_mismatch_denied
+tests/test_changes.py::test_audit_write_failure_blocks_execute
+tests/test_changes.py::test_approval_message_executes_deterministically
+  ./backend/app/services/changes.py:200: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    now = datetime.utcnow()
+
+tests/test_changes.py::test_approve_execute_verify_and_audit_chain
+tests/test_changes.py::test_approval_message_executes_deterministically
+  ./backend/app/services/changes.py:234: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    plan.updated_at = datetime.utcnow()
+
+tests/test_changes.py::test_approve_execute_verify_and_audit_chain
+tests/test_changes.py::test_approval_message_executes_deterministically
+  ./backend/app/services/changes.py:235: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    approval.used_at = datetime.utcnow()
+
+tests/test_changes.py::test_approve_execute_verify_and_audit_chain
+tests/test_changes.py::test_approval_message_executes_deterministically
+  ./backend/app/services/changes.py:259: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    plan.updated_at = datetime.utcnow()
+
+tests/test_changes.py::test_expired_approval_denied
+  ./backend/tests/test_changes.py:88: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    approval.expires_at = datetime.utcnow() - timedelta(minutes=1)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+27 passed, 26 warnings in 0.49s
+结果：通过（27/27）
+
+================ 2. 真实模型冒烟记录（docs/evidence/<阶段>/冒烟记录.md，须由冒烟脚本写入，格式见通用手册第十节） ================
+有：docs/evidence/阶段2-3/冒烟记录.md，模型 deepseek-chat，1 次真实调用，最近一次 2026-11-09 17:53:54
+结果：有记录（deepseek-chat，1 次，最近 2026-11-09 17:53:54）
+
+================ 3. 密钥排除（扫描整个仓库会进 git 的文件，以及本产品的构建产物） ================
+通过：没有 .env 文件被 git 跟踪。
+通过：会进仓库的文件中未发现密钥样式字符串。
+通过：projects/数据中心运维助理/backend/.env 中 MODEL_API_KEY 的值未出现在任何跟踪文件或构建产物中。
+结果：通过
+
+================ 4. 数据重启恢复（verify.sh 自己起服务、写随机标记、杀进程、再起、读回；钩子 scripts/restart-check.sh 只提供 start/write/read/stop） ================
+通过：起服务（PID 71556）→ 写入随机标记 → 杀掉 → 再起（PID 71588）→ 按 ID 0754d7790d3649bdb690caef0f822e01 读回，标记一致。
+结果：通过（进程 71556→71588，随机标记读回一致）
+
+================ 5. 前端类型检查 / Lint / 生产构建 ================
+未找到 frontend/package.json，本阶段无正式前端。
+结果：N/A（本阶段无正式前端）
+
+================ 6. 文件齐全与位置（AGENTS.md 第 7 节的产出清单；根目录不放产品文件；前面阶段有没有被跳过） ================
+通过：根目录没有放错位置的文件。
+有：docs/阶段文档/阶段2-3技术开发文档.md
+有：docs/项目状态.md
+有：README.md
+有：docs/evidence/阶段2-3/照着做清单.md
+有：docs/evidence/阶段2-3/是否表.md
+有：docs/evidence/阶段2-3/ 下 1 张截图
+通过：前面阶段（阶段0 阶段1 阶段2-1 阶段2-2）的产物都在。
+结果：通过
+
+================ 汇总（抄进是否表的就是这六行） ================
+是否表第 2 项  mock 测试：      通过（27/27）
+是否表第 3 项  真实模型冒烟：   有记录（deepseek-chat，1 次，最近 2026-11-09 17:53:54）
+是否表第 4 项  前端检查与构建： N/A（本阶段无正式前端）
+是否表第 5 项  密钥排除：       通过
+是否表第 6 项  重启后数据恢复： 通过（进程 71556→71588，随机标记读回一致）
+是否表第 10 项 文件齐全与位置： 通过
+总判定：六项全部通过或不适用。

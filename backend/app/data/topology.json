@@ -1,0 +1,9 @@
+{
+  "edges": [
+    {"source": "core-sw-01", "target": "access-sw-02", "direction": "downstream", "type": "l2"},
+    {"source": "access-sw-02", "target": "db-prod-01", "direction": "downstream", "type": "access"},
+    {"source": "access-sw-02", "target": "app-prod-02", "direction": "downstream", "type": "access"},
+    {"source": "core-sw-01", "target": "storage-01", "direction": "downstream", "type": "san"},
+    {"source": "hvac-01", "target": "core-sw-01", "direction": "environment", "type": "cooling"}
+  ]
+}

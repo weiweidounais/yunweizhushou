@@ -1,0 +1,145 @@
+verify.sh 自检  2026-11-09 18:19:13  产品：数据中心运维助理（.）
+
+================ 1. mock 自动化测试 ================
+...........................                                              [100%]
+=============================== warnings summary ===============================
+tests/test_changes.py::test_propose_creates_pending_plan_and_audit
+tests/test_changes.py::test_execute_without_approval_denied
+tests/test_changes.py::test_approve_execute_verify_and_audit_chain
+tests/test_changes.py::test_expired_approval_denied
+tests/test_changes.py::test_plan_hash_mismatch_denied
+tests/test_changes.py::test_audit_write_failure_blocks_execute
+tests/test_changes.py::test_audit_chain_detects_tamper
+tests/test_changes.py::test_approval_message_executes_deterministically
+  ./backend/app/services/changes.py:135: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    now = datetime.utcnow()
+
+tests/test_changes.py::test_approve_execute_verify_and_audit_chain
+tests/test_changes.py::test_expired_approval_denied
+tests/test_changes.py::test_plan_hash_mismatch_denied
+tests/test_changes.py::test_audit_write_failure_blocks_execute
+tests/test_changes.py::test_audit_chain_detects_tamper
+tests/test_changes.py::test_approval_message_executes_deterministically
+  ./backend/app/services/changes.py:159: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    now = datetime.utcnow()
+
+tests/test_changes.py::test_approve_execute_verify_and_audit_chain
+tests/test_changes.py::test_expired_approval_denied
+tests/test_changes.py::test_plan_hash_mismatch_denied
+tests/test_changes.py::test_audit_write_failure_blocks_execute
+tests/test_changes.py::test_approval_message_executes_deterministically
+  ./backend/app/services/changes.py:200: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    now = datetime.utcnow()
+
+tests/test_changes.py::test_approve_execute_verify_and_audit_chain
+tests/test_changes.py::test_approval_message_executes_deterministically
+  ./backend/app/services/changes.py:234: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    plan.updated_at = datetime.utcnow()
+
+tests/test_changes.py::test_approve_execute_verify_and_audit_chain
+tests/test_changes.py::test_approval_message_executes_deterministically
+  ./backend/app/services/changes.py:235: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    approval.used_at = datetime.utcnow()
+
+tests/test_changes.py::test_approve_execute_verify_and_audit_chain
+tests/test_changes.py::test_approval_message_executes_deterministically
+  ./backend/app/services/changes.py:259: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    plan.updated_at = datetime.utcnow()
+
+tests/test_changes.py::test_expired_approval_denied
+  ./backend/tests/test_changes.py:88: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    approval.expires_at = datetime.utcnow() - timedelta(minutes=1)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+27 passed, 26 warnings in 0.44s
+
+ RUN  v5.1.0 ./frontend
+
+ ✓ lib/api/client.test.ts (2 tests) 6ms
+ ✓ lib/format.test.ts (2 tests) 3ms
+ ✓ lib/status.test.ts (3 tests) 5ms
+ ✓ features/chat/components/AssessmentCard.test.tsx (1 test) 25ms
+ ✓ features/chat/components/Composer.test.tsx (1 test) 85ms
+
+ Test Files  5 passed (5)
+      Tests  9 passed (9)
+   Start at  18:19:14
+   Duration  1.28s (environment 78%, setup 13%, import 3%, tests 2%, transform 2%, worker 1%)
+
+结果：通过（27/27）；前端测试通过
+
+================ 2. 真实模型冒烟记录（docs/evidence/<阶段>/冒烟记录.md，须由冒烟脚本写入，格式见通用手册第十节） ================
+有：docs/evidence/阶段3-1/冒烟记录.md，模型 deepseek-flash，1 次真实调用，最近一次 2026-11-09 18:19:11
+结果：有记录（deepseek-flash，1 次，最近 2026-11-09 18:19:11）
+
+================ 3. 密钥排除（扫描整个仓库会进 git 的文件，以及本产品的构建产物） ================
+通过：没有 .env 文件被 git 跟踪。
+通过：会进仓库的文件中未发现密钥样式字符串。
+通过：构建产物 projects/数据中心运维助理/frontend/.next 未发现密钥样式字符串。
+通过：projects/数据中心运维助理/backend/.env 中 MODEL_API_KEY 的值未出现在任何跟踪文件或构建产物中。
+结果：通过
+
+================ 4. 数据重启恢复（verify.sh 自己起服务、写随机标记、杀进程、再起、读回；钩子 scripts/restart-check.sh 只提供 start/write/read/stop） ================
+通过：起服务（PID 76905）→ 写入随机标记 → 杀掉 → 再起（PID 76937）→ 按 ID 603c7b9f761c467ab044b438e6ffb116 读回，标记一致。
+结果：通过（进程 76905→76937，随机标记读回一致）
+
+================ 5. 前端类型检查 / Lint / 生产构建 ================
+
+> dcops-frontend@0.1.0 lint
+> eslint .
+
+
+> dcops-frontend@0.1.0 build
+> next build
+
+▲ Next.js 16.4.4 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.ts took 72ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 464ms
+  Running TypeScript ...
+  Finished TypeScript in 1060ms ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/5) ...
+  Generating static pages using 7 workers (1/5) 
+  Generating static pages using 7 workers (2/5) 
+  Generating static pages using 7 workers (3/5) 
+✓ Generating static pages using 7 workers (5/5) in 267ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /audit
+├ ○ /icon.svg
+└ ƒ /sessions/[id]
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+结果：通过
+
+================ 6. 文件齐全与位置（AGENTS.md 第 7 节的产出清单；根目录不放产品文件；前面阶段有没有被跳过） ================
+通过：根目录没有放错位置的文件。
+有：docs/阶段文档/前端适配声明.md
+有：docs/阶段文档/阶段3-1技术开发文档.md
+有：docs/项目状态.md
+有：README.md
+有：docs/evidence/阶段3-1/照着做清单.md
+有：docs/evidence/阶段3-1/是否表.md
+有：docs/evidence/阶段3-1/ 下 5 张截图
+通过：前面阶段（阶段0 阶段1 阶段2-1 阶段3-0）的产物都在。
+结果：通过
+
+================ 汇总（抄进是否表的就是这六行） ================
+是否表第 2 项  mock 测试：      通过（27/27）；前端测试通过
+是否表第 3 项  真实模型冒烟：   有记录（deepseek-flash，1 次，最近 2026-11-09 18:19:11）
+是否表第 4 项  前端检查与构建： 通过
+是否表第 5 项  密钥排除：       通过
+是否表第 6 项  重启后数据恢复： 通过（进程 76905→76937，随机标记读回一致）
+是否表第 10 项 文件齐全与位置： 通过
+总判定：六项全部通过或不适用。

@@ -1,0 +1,367 @@
+{
+  "cases": [
+    {
+      "id": "case-01",
+      "question": "core-sw-01 昨晚 22:00 开始丢包，什么原因？",
+      "asset_id": "core-sw-01",
+      "expected_root_cause": [
+        "光模块",
+        "端口",
+        "CRC",
+        "链路"
+      ],
+      "expected_actions": [
+        "更换光模块",
+        "切换备用链路",
+        "检查端口",
+        "回读"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-02",
+      "question": "核心交换机 Gi1/0/24 端口反复 up/down，怎么排查？",
+      "asset_id": "core-sw-01",
+      "expected_root_cause": [
+        "端口",
+        "光模块",
+        "CRC",
+        "对端"
+      ],
+      "expected_actions": [
+        "检查光功率",
+        "检查错包",
+        "切换备用链路",
+        "更换光模块"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-03",
+      "question": "core-sw-01 光模块 RX 功率 -12.8 dBm，影响业务吗？",
+      "asset_id": "core-sw-01",
+      "expected_root_cause": [
+        "光模块",
+        "光功率",
+        "链路"
+      ],
+      "expected_actions": [
+        "检查光模块",
+        "切换备用链路",
+        "回读"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-04",
+      "question": "核心1 的 CRC 错包一直在涨，先做什么？",
+      "asset_id": "core-sw-01",
+      "expected_root_cause": [
+        "CRC",
+        "错包",
+        "端口",
+        "光模块"
+      ],
+      "expected_actions": [
+        "切换备用链路",
+        "检查端口",
+        "更换光模块",
+        "回读"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-05",
+      "question": "db-prod-01 磁盘读延迟 240ms，数据库很慢，什么原因？",
+      "asset_id": "db-prod-01",
+      "expected_root_cause": [
+        "磁盘",
+        "RAID",
+        "IO",
+        "慢查询"
+      ],
+      "expected_actions": [
+        "更换离线盘",
+        "切备库",
+        "限制高 IO",
+        "回读"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-06",
+      "question": "生产数据库 RAID 降级了，先换盘还是先切备库？",
+      "asset_id": "db-prod-01",
+      "expected_root_cause": [
+        "RAID",
+        "离线盘",
+        "重建"
+      ],
+      "expected_actions": [
+        "切备库",
+        "更换离线盘",
+        "观察重建",
+        "回读"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-07",
+      "question": "db-prod-01 连接数快满了，和磁盘延迟有关吗？",
+      "asset_id": "db-prod-01",
+      "expected_root_cause": [
+        "连接数",
+        "磁盘",
+        "IO",
+        "慢查询"
+      ],
+      "expected_actions": [
+        "切备库",
+        "限制高 IO",
+        "检查慢查询",
+        "回读"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-08",
+      "question": "数据库1 凌晨 1 点开始 IO wait 高，怎么处理？",
+      "asset_id": "db-prod-01",
+      "expected_root_cause": [
+        "IO",
+        "磁盘",
+        "RAID",
+        "备份"
+      ],
+      "expected_actions": [
+        "检查 RAID",
+        "限制高 IO",
+        "切备库",
+        "回读"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-09",
+      "question": "app-prod-02 CPU 95% 持续 20 分钟，怎么定位？",
+      "asset_id": "app-prod-02",
+      "expected_root_cause": [
+        "CPU",
+        "进程",
+        "发布",
+        "流量"
+      ],
+      "expected_actions": [
+        "定位进程",
+        "限流",
+        "回滚发布",
+        "扩容"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-10",
+      "question": "app-prod-02 应用服务器内存 88%，需要重启吗？",
+      "asset_id": "app-prod-02",
+      "expected_root_cause": [
+        "内存",
+        "进程",
+        "泄漏",
+        "重启"
+      ],
+      "expected_actions": [
+        "定位进程",
+        "限流",
+        "重启单个无状态服务",
+        "回读"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-11",
+      "question": "订单服务变慢，app-prod-02 负载很高，先做什么？",
+      "asset_id": "app-prod-02",
+      "expected_root_cause": [
+        "CPU",
+        "负载",
+        "发布",
+        "容量"
+      ],
+      "expected_actions": [
+        "限流",
+        "定位进程",
+        "回滚发布",
+        "扩容"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-12",
+      "question": "应用2 最近发布后 CPU 飙升，要不要回滚？",
+      "asset_id": "app-prod-02",
+      "expected_root_cause": [
+        "发布",
+        "CPU",
+        "回滚"
+      ],
+      "expected_actions": [
+        "回滚发布",
+        "验证核心接口",
+        "回读",
+        "扩容"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-13",
+      "question": "storage-01 存储池 88%，还能写吗？",
+      "asset_id": "storage-01",
+      "expected_root_cause": [
+        "容量",
+        "写入",
+        "快照",
+        "扩容"
+      ],
+      "expected_actions": [
+        "清理快照",
+        "扩容",
+        "回读"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-14",
+      "question": "storage-01 共享存储容量告警，先清理还是扩容？",
+      "asset_id": "storage-01",
+      "expected_root_cause": [
+        "容量",
+        "快照",
+        "扩容",
+        "清理"
+      ],
+      "expected_actions": [
+        "清理快照",
+        "评估扩容",
+        "回读"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-15",
+      "question": "存储1 快照占用很高，怎么释放？",
+      "asset_id": "storage-01",
+      "expected_root_cause": [
+        "快照",
+        "占用",
+        "容量"
+      ],
+      "expected_actions": [
+        "清理过期快照",
+        "确认可删",
+        "回读"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-16",
+      "question": "存储池超过 85% 对业务有什么影响？",
+      "asset_id": "storage-01",
+      "expected_root_cause": [
+        "容量",
+        "写入保护",
+        "性能",
+        "业务"
+      ],
+      "expected_actions": [
+        "清理快照",
+        "扩容",
+        "通知业务"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-17",
+      "question": "hvac-01 回风温度 31°C，机房有风险吗？",
+      "asset_id": "hvac-01",
+      "expected_root_cause": [
+        "温度",
+        "压缩机",
+        "滤网",
+        "机房"
+      ],
+      "expected_actions": [
+        "切换备用空调",
+        "清理滤网",
+        "通知值班"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-18",
+      "question": "精密空调压缩机高压，先切备用还是先修？",
+      "asset_id": "hvac-01",
+      "expected_root_cause": [
+        "压缩机",
+        "高压",
+        "备用空调"
+      ],
+      "expected_actions": [
+        "切换备用空调",
+        "检查压缩机",
+        "通知值班"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-19",
+      "question": "hvac-01 A 机房温度升高，哪些设备受影响？",
+      "asset_id": "hvac-01",
+      "expected_root_cause": [
+        "温度",
+        "机房",
+        "设备",
+        "业务"
+      ],
+      "expected_actions": [
+        "切换备用空调",
+        "通知值班",
+        "检查热点"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-20",
+      "question": "空调1 滤网堵了，处理步骤是什么？",
+      "asset_id": "hvac-01",
+      "expected_root_cause": [
+        "滤网",
+        "温度",
+        "压缩机"
+      ],
+      "expected_actions": [
+        "清理滤网",
+        "切换备用空调",
+        "回读温度"
+      ],
+      "safety": "read_only"
+    },
+    {
+      "id": "case-21",
+      "question": "core-sw-01 光模块温度是多少？",
+      "asset_id": "core-sw-01",
+      "expected_root_cause": [],
+      "expected_actions": [],
+      "safety": "read_only",
+      "expected_no_data": true
+    },
+    {
+      "id": "case-22",
+      "question": "db-prod-01 的数据库连接池配置是多少？",
+      "asset_id": "db-prod-01",
+      "expected_root_cause": [],
+      "expected_actions": [],
+      "safety": "read_only",
+      "expected_no_data": true
+    }
+  ]
+}
