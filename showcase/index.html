@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>数据中心运维助理 · 公开展示</title>
+  <meta name="description" content="面向数据中心值班工程师的运维 Agent：诊断、变更审批、确定性执行与哈希链审计。静态展示版，不连接任何 API。">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark">FY</span>
+        <span class="brand-text">
+          <strong>数据中心运维助理</strong>
+          <small>诊断 · 变更审批 · 审计</small>
+        </span>
+      </a>
+      <nav class="nav">
+        <a href="#demo">交互演示</a>
+        <a href="#evidence">界面</a>
+        <a href="#eval">评测</a>
+        <a href="#run">运行</a>
+        <a class="gh" href="https://github.com/weiweidounais/yunweizhushou" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="dot"></span> Public demo · 离线 Mock · 不调用任何 API</div>
+        <h1>把告警排查，<br><em>变成有证据的闭环。</em></h1>
+        <p class="lede">面向数据中心值班工程师的个人运维助理。输入一条告警，查资产、指标、告警、拓扑和 runbook，给出带证据的根因与处置建议；需要变更时先出计划，人工批准后由确定性代码模拟执行并回读，全过程写入可校验的哈希链。</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#demo">试一次演示</a>
+          <a class="btn ghost" href="https://github.com/weiweidounais/yunweizhushou" target="_blank" rel="noreferrer">看源码</a>
+        </div>
+        <div class="hero-tags">
+          <span>FastAPI</span><span>Next.js 16</span><span>DeepSeek</span><span>SQLite</span><span>MIT</span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="产品结构示意">
+        <div class="visual-top"><span class="visual-dot"></span><span>core-sw-01 · 22:00 丢包</span><span class="badge">Mock</span></div>
+        <div class="visual-row"><span class="label">结论</span><p>Gi1/0/24 光模块 RX 功率劣化，导致端口抖动与 CRC 错包，进而丢包。</p></div>
+        <div class="visual-grid">
+          <div><span class="label">RX</span><b>-12.8 dBm</b><small>低于 -8 dBm</small></div>
+          <div><span class="label">CRC</span><b>3 → 220</b><small>2 小时</small></div>
+          <div><span class="label">up/down</span><b>18 次</b><small>22:00–23:00</small></div>
+        </div>
+        <div class="visual-plan"><span>变更计划</span><b>隔离 Gi1/0/24</b><span class="warn">待审批</span></div>
+        <div class="visual-audit"><span>哈希链</span><b>valid</b><small>proposed → approved → executed → verified</small></div>
+      </div>
+    </section>
+
+    <section class="metrics wrap" aria-label="评测指标">
+      <div class="metric"><span>根因 Top-1</span><b>20/20</b><small>100%</small></div>
+      <div class="metric"><span>根因 Top-3</span><b>20/20</b><small>100%</small></div>
+      <div class="metric"><span>证据覆盖</span><b>22/22</b><small>100%</small></div>
+      <div class="metric"><span>无数据诚实</span><b>2/2</b><small>100%</small></div>
+      <div class="metric"><span>未审批执行</span><b>0</b><small>安全红线</small></div>
+    </section>
+
+    <section id="demo" class="wrap section">
+      <div class="section-head">
+        <div><span class="kicker">INTERACTIVE DEMO</span><h2>从告警到变更，走一遍完整闭环</h2></div>
+        <p>以下内容全部由本地 Mock 数据驱动：点击样例、批准变更、查看审计；<strong>不会发起网络请求，也不会调用模型</strong>。</p>
+      </div>
+
+      <div class="demo-grid">
+        <aside class="demo-side">
+          <h3>样例</h3>
+          <p class="side-note">点一条，模拟一次诊断。</p>
+          <button class="sample" data-case="packet"><span>01</span>core-sw-01 昨晚 22:00 开始丢包</button>
+          <button class="sample" data-case="disk"><span>02</span>db-prod-01 磁盘读延迟 240ms</button>
+          <button class="sample" data-case="hvac"><span>03</span>hvac-01 回风温度 31°C</button>
+          <button class="sample change" data-case="change"><span>04</span>变更演示：隔离 core-sw-01 Gi1/0/24</button>
+          <div class="side-box">
+            <strong>展示版边界</strong>
+            <p>不连真实监控、不碰真实设备、不读取任何 Key。完整产品需在本机启动 FastAPI + Next.js。</p>
+          </div>
+        </aside>
+
+        <div class="workbench" aria-live="polite">
+          <div class="wb-head">
+            <div><strong>值班工作台</strong><small>演示会话 · Mock</small></div>
+            <span class="status" id="wb-status">待开始</span>
+          </div>
+          <div class="messages" id="messages">
+            <div class="empty" id="empty">
+              <span class="empty-mark">FY</span>
+              <strong>选择一个样例开始</strong>
+              <p>诊断结论会带证据；需要变更时，先出计划，再由你批准。</p>
+            </div>
+          </div>
+          <div class="wb-input">
+            <span>展示版：点击左侧样例，不发送真实请求</span>
+            <button type="button" aria-label="发送（演示）" disabled>↑</button>
+          </div>
+        </div>
+
+        <aside class="rail">
+          <div class="rail-card">
+            <h3>本轮工具</h3>
+            <div id="tools" class="tool-list"><div class="tool-empty">还没有调用</div></div>
+          </div>
+          <div class="rail-card safety">
+            <h3>安全边界</h3>
+            <ul>
+              <li>未审批不执行</li>
+              <li>审批一次性、15 分钟过期</li>
+              <li>plan_hash 绑定计划</li>
+              <li>审计写失败即中止</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <div class="audit-panel" id="audit" hidden>
+        <div class="audit-head">
+          <div><span class="kicker">AUDIT</span><h3>审计记录</h3></div>
+          <span class="chain">哈希链校验通过 · 5 条（演示）</span>
+        </div>
+        <div class="audit-scroll">
+          <table>
+            <thead><tr><th>时间</th><th>动作</th><th>对象</th><th>结果</th><th>plan_hash</th><th>approval</th></tr></thead>
+            <tbody id="audit-body"></tbody>
+          </table>
+        </div>
+        <p class="audit-note">展示值用于说明链路结构，不是真实设备或真实审计数据。</p>
+      </div>
+    </section>
+
+    <section id="evidence" class="wrap section">
+      <div class="section-head">
+        <div><span class="kicker">PRODUCT SURFACE</span><h2>不是一张概念图，是可运行的界面</h2></div>
+        <p>完整前端为 Next.js 工作台 + 审计页；下面是项目验收时留下的真实截图。</p>
+      </div>
+      <div class="shots">
+        <figure><img src="assets/workbench.png" alt="工作台截图"><figcaption><b>工作台</b><span>结论、证据、工具调用、变更卡片</span></figcaption></figure>
+        <figure><img src="assets/audit.png" alt="审计页截图"><figcaption><b>审计页</b><span>哈希链校验与变更链路</span></figcaption></figure>
+      </div>
+    </section>
+
+    <section class="wrap section">
+      <div class="section-head">
+        <div><span class="kicker">WHY IT CAN BE TRUSTED</span><h2>把“敢不敢用”拆成四个约束</h2></div>
+      </div>
+      <div class="trust-grid">
+        <article><span>01</span><h3>结论必须带证据</h3><p>每条根因给出来源指标/告警；没有数据就明确说不知道，不用听起来合理的猜测填空。</p></article>
+        <article><span>02</span><h3>变更必须经人批准</h3><p>模型只负责生成计划；批准由人完成，审批与 plan_hash 绑定，过期/重放/改参数都拒绝。</p></article>
+        <article><span>03</span><h3>执行不交给模型</h3><p>批准后的执行由确定性代码完成，模型不碰执行权；执行器在演示中明确标注“模拟”。</p></article>
+        <article><span>04</span><h3>全过程可审计</h3><p>proposed / approved / executing / executed / verified 追加写入，哈希链可重算校验。</p></article>
+      </div>
+    </section>
+
+    <section id="eval" class="wrap section">
+      <div class="eval-card">
+        <div>
+          <span class="kicker">EVALUATION</span>
+          <h2>22 条合成告警，真实模型跑出来的指标</h2>
+          <p>20 条有数据场景 + 2 条无数据诚实性样例。指标是项目验收结果，不是宣传口径；逐条结果和评测脚本在仓库里。</p>
+          <a class="btn ghost" href="https://github.com/weiweidounais/yunweizhushou/blob/main/docs/evidence/阶段2-3/评测结果.md" target="_blank" rel="noreferrer">查看逐条评测</a>
+        </div>
+        <div class="eval-grid">
+          <div><b>100%</b><span>Top-1</span></div>
+          <div><b>100%</b><span>Top-3</span></div>
+          <div><b>100%</b><span>证据覆盖</span></div>
+          <div><b>0</b><span>危险动作</span></div>
+          <div><b>112,252</b><span>tokens</span></div>
+          <div><b>7.2s</b><span>平均耗时</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="run" class="wrap section">
+      <div class="section-head">
+        <div><span class="kicker">RUN LOCALLY</span><h2>完整版在本地运行</h2></div>
+        <p>公开页只展示交互和结果；真实诊断需要后端、模型 Key 和模拟 Provider，均在本地启动。</p>
+      </div>
+      <div class="run-grid">
+        <div class="code-card">
+          <div class="code-head"><span>backend</span><span>8020</span></div>
+          <pre><code>cd backend
+python3.12 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+cp .env.example .env
+.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8020</code></pre>
+        </div>
+        <div class="code-card">
+          <div class="code-head"><span>frontend</span><span>3010</span></div>
+          <pre><code>cd frontend
+cp .env.example .env.local
+npm install
+npm run dev
+# http://localhost:3010/</code></pre>
+        </div>
+      </div>
+      <p class="fine">仓库不包含任何 API Key、`.env`、数据库或构建产物。克隆后按 README 创建配置。</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div><strong>数据中心运维助理</strong><span>Local-first AI Ops Agent Demo</span></div>
+      <div class="footer-links">
+        <a href="https://github.com/weiweidounais/yunweizhushou" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://github.com/weiweidounais/yunweizhushou/blob/main/交付清单.md" target="_blank" rel="noreferrer">交付清单</a>
+        <a href="https://github.com/weiweidounais/yunweizhushou/blob/main/LICENSE" target="_blank" rel="noreferrer">MIT</a>
+      </div>
+    </div>
+    <div class="wrap disclosure">公开展示版使用本地 Mock 数据，不连接真实监控/设备，不调用任何 API 或模型；指标来自项目本地评测。</div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

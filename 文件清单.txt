@@ -1,8 +1,9 @@
 # 数据中心运维助理 · 文件清单
 
+.github/workflows/pages.yml	773 bytes
 .gitignore	401 bytes
 LICENSE	1069 bytes
-README.md	5391 bytes
+README.md	5507 bytes
 backend/.env.example	314 bytes
 backend/app/__init__.py	40 bytes
 backend/app/api/__init__.py	0 bytes
@@ -181,5 +182,12 @@ frontend/vitest.config.mts	419 bytes
 scripts/eval_cases.py	6200 bytes
 scripts/restart-check.sh	2161 bytes
 scripts/smoke.py	7161 bytes
+showcase/.nojekyll	0 bytes
+showcase/README.md	524 bytes
+showcase/app.js	13619 bytes
+showcase/assets/audit.png	199882 bytes
+showcase/assets/workbench.png	236551 bytes
+showcase/index.html	11549 bytes
+showcase/styles.css	16940 bytes
 
-合计：181 个文件（不含 .git、交付清单.md、本清单）
+合计：189 个文件（不含 .git、交付清单.md、本清单）
